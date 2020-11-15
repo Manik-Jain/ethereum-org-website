@@ -5,17 +5,10 @@ import Img from "gatsby-image"
 
 const Logo = () => {
   const themeContext = useContext(ThemeContext)
-  const isDarkTheme = themeContext.isDark
+  const imageName = themeContext.isDark ? "ef-logo.png" : "ef-logo-white.png"
   const data = useStaticQuery(graphql`
     query {
-      dark: file(relativePath: { eq: "ef-logo.png" }) {
-        childImageSharp {
-          fixed(height: 100) {
-            ...GatsbyImageSharpFixed
-          }
-        }
-      }
-      light: file(relativePath: { eq: "ef-logo-white.png" }) {
+      img : file(relativePath: { eq: imageName }) {
         childImageSharp {
           fixed(height: 100) {
             ...GatsbyImageSharpFixed
@@ -25,9 +18,8 @@ const Logo = () => {
     }
   `)
 
-  const image = isDarkTheme ? data.light : data.dark
   return (
-    <Img fixed={image.childImageSharp.fixed} alt="Ethereum Foundation Logo" />
+    <Img fixed={data.img.childImageSharp.fixed} alt="Ethereum Foundation Logo" />
   )
 }
 
